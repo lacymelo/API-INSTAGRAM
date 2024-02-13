@@ -1,0 +1,12 @@
+{
+  "name": "api-instagram",
+  "version": "1.0.0",
+  "description": "<div align=\"justify\">   <p align=\"center\">     <img alt=\"Logo Omnistack 7 - Rocketseat\" src=\"https://arturkilldragon.files.wordpress.com/2019/06/omnistack-wallpaper-1920x1080.png\" width=\"300px\" />   </p>",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
