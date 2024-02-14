@@ -11,10 +11,10 @@ export class PrismaPostRepository implements PostRepository {
         return post
     }
 
-    async getPosts(postId: string) {
+    async getPosts() {
         const posts = await prisma.post.findMany({
-            where: {
-                id: postId
+            orderBy: {
+                createdAt: 'asc'
             }
         })
 
