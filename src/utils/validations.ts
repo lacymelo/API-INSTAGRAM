@@ -10,4 +10,7 @@ export const postSchema = z.object({
 export const postImageSchema = z.object({
     filename: z.string(),
 })
+export const likeSchema = z.object({
+    postId: z.string(),
+})
 
