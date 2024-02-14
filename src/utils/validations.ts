@@ -7,3 +7,7 @@ export const postSchema = z.object({
     hashtags: z.string({ required_error: 'Campo hashtags obrigatório.' }),
 })
 
+export const postImageSchema = z.object({
+    filename: z.string(),
+})
+

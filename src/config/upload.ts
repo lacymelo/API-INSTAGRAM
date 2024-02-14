@@ -1,25 +1,15 @@
-import { FastifyReply, FastifyRequest } from "fastify";
-import path from "path";
-import { randomUUID } from "node:crypto"
+import multer from "fastify-multer"
+import path from "path"
+import crypto from "crypto"
 
-export async function fileUpload(request: FastifyRequest, reply: FastifyReply) {
-    const data = await request.file()
+export default {
+    storage: multer.diskStorage({
+        destination: path.resolve(__dirname, "..", "..", "uploads"),
+        filename(req, file, callback) {
+            const hash = crypto.randomBytes(6).toString('hex')
 
-    if (!data) {
-        return reply.status(400).send({ error: 'Missing file input' })
-    }
-
-    //recupera a extensão do arquivo
-    const extension = path.extname(data.filename)
-
-    // nome original do arquivo
-    const fileBaseName = path.basename(data.filename, extension)
-
-    // gerando um novo nome para o arquivo
-    const fileUploadName = `${fileBaseName}-${randomUUID()}-${extension}`
-
-    // diretório onde o arquivo será salvo
-    const uploadDestination = path.resolve(__dirname, '../../uploads', fileUploadName)
-
-    return uploadDestination
+            const filename = `${hash}-${file.originalname}`
+            callback(null, filename)
+        }
+    })
 }

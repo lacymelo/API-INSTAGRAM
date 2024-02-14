@@ -91,9 +91,9 @@ pnpm i @fastify/websocket
 pnpm i dotenv
 ```
 
-✨ Neste projeto será necessário o envio de arquivos nas requisições, então vamos usar a lib `@fastify/multipart`, para instalr utilize o seguinte comando.
+✨ Neste projeto será necessário o envio de arquivos nas requisições, então vamos usar a lib `fastify-multer`, para instalr utilize o seguinte comando.
 ```bash
-pnpm i @fastify/multipart
+pnpm i fastify-multer
 ```
 
 ## :arrow_forward: Configurações do Docker
