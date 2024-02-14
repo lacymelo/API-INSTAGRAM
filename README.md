@@ -1,6 +1,6 @@
 <div align="justify">
   <p align="center">
-    <img alt="Logo Omnistack 7 - Rocketseat" src="https://arturkilldragon.files.wordpress.com/2019/06/omnistack-wallpaper-1920x1080.png" width="300px" />
+    <img alt="Logo Omnistack 7 - Rocketseat" src="https://arturkilldragon.files.wordpress.com/2019/06/omnistack-wallpaper-1920x1080.png" width="500px" />
   </p>
 
   <h1 align="center">
@@ -12,7 +12,7 @@
 
 ## :rocket: Funcionalidades
 - [X] Criar post
-- [X] List post
+- [X] Listar post
 - [X] Dar like em post
 ---
 
@@ -91,6 +91,11 @@ pnpm i @fastify/websocket
 pnpm i dotenv
 ```
 
+✨ Neste projeto será necessário o envio de arquivos nas requisições, então vamos usar a lib `@fastify/multipart`, para instalr utilize o seguinte comando.
+```bash
+pnpm i @fastify/multipart
+```
+
 ## :arrow_forward: Configurações do Docker
 > Esses são os comandos e configurações do docker.
 
@@ -108,7 +113,7 @@ services:
       - POSTGRES_PASSWORD=docker
       - POSTGRES_DB=instagram
     volumes:
-      - polls_pg_data:/bitnami/postgresql
+      - instagram_pg_data:/bitnami/postgresql
 
   redis:
     image: bitnami/redis:latest
@@ -117,11 +122,11 @@ services:
     ports:
       - '6379:6379'
     volumes:
-      - 'polls_redis_data:/bitnami/redis/data'
+      - 'instagram_redis_data:/bitnami/redis/data'
 
 volumes:
-  polls_pg_data:
-  polls_redis_data:
+  instagram_pg_data:
+  instagram_redis_data:
 ```
 ✨ Para executar o docker, execute este comando.
 ```bash
