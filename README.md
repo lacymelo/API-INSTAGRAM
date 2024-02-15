@@ -7,7 +7,7 @@
     🤖 Trilha Node: API INSTAGRAM
   </h1>
 
-  > Bem-vindo ao repositório da API INSTAGRAM, uma recriação da API desenvolvida no evento OMNISTACK 7 promovido pela Rocketseat. Esta nova versão aborda a criação de uma API com funcionalidades de likes em 👉 tempo real, utilizando o banco de dados PostgreSQL e o protocolo 👉 WebSockets para monitorar os likes em cada post. Além disso, emprega o banco de dados 👉 Redis para armazenar a contagem de likes 🚀.
+  > Bem-vindo ao repositório da API INSTAGRAM, uma recriação da API desenvolvida no evento OMNISTACK 7 promovido pela Rocketseat. Esta nova versão aborda a criação de uma API com funcionalidades de likes em 👉 tempo real, utilizando o banco de dados PostgreSQL e o protocolo 👉 WebSockets para monitorar os likes em cada post. Além disso, utiliza o banco de dados 👉 Redis para armazenar a contagem de likes 🚀.
 </div>
 
 ## :rocket: Funcionalidades
@@ -162,6 +162,10 @@ npx prisma studio
 ✨ Para manipular a base de dados no formato de ranking vamos usar o `Radis`, para isso instale a lib `ioredis` usando o seguinte comando.
 ```bash
 pnpm i ioredis
+```
+✨ Para receber requisições nesta api vamos instalar a lib `cors`, usando o seguinte comando.
+```bash
+pnpm i @fastify/cors
 ```
 # :closed_book: License
 
