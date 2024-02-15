@@ -6,7 +6,7 @@ class LikePubSubUseCase {
 
     subscribe(postId: string, subscriber: Subscriber) {
         if (!this.channels[postId]) {
-            return
+            this.channels[postId] = []
         }
 
         this.channels[postId].push(subscriber)

@@ -5,11 +5,22 @@ import { FastifyReply, FastifyRequest } from "fastify";
 export async function getPosts(request: FastifyRequest, reply: FastifyReply) {
     let listPost
     let result
+    let likes
     try {
         const posts = makeGetPostsUseCase()
         listPost = await posts.execute()
 
-        result = await redis.zrange('cee3e47d-2839-4002-89a1-2568e3eaa56c', 0, -1, 'WITHSCORES')
+        if (listPost) {
+            result = await Promise.all(listPost.map(async (post) => {
+                likes = await redis.zrange(post.id, 0, -1, 'WITHSCORES')
+
+                return {
+                    ...post,
+                    like: likes[1] ? Number(likes[1]) : 0
+                }
+            }))
+        }
+
     } catch (err) {
         throw err
     }

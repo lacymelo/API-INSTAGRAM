@@ -17,12 +17,6 @@ app.register(cookie, {
 
 app.register(multer.contentParser)
 
-// app.register(fastifyMultipart, {
-//     limits: {
-//         fileSize: 1_048_576 * 25, // 25mb
-//     }
-// })
-
 // Registre o protocolo WebSocket
 app.register(websocket)
 

@@ -14,26 +14,6 @@ export async function likePost(request: FastifyRequest, reply: FastifyReply) {
     let likeOption = 'like' // definindo like como 1
     let like
 
-    if (sessionId) {
-        const getPreviousLike = makeUserPreviousLikePost()
-        previousLike = await getPreviousLike.execute({ sessionId, postId })
-
-        if (previousLike) {
-            const deleteLike = makeDeleteLikeUseCase()
-            let deletePreviousLike = await deleteLike.execute({ likeId: previousLike.id })
-
-            if (deletePreviousLike) {
-                const likes = await redis.zincrby(postId, -1, likeOption)
-
-                liking.publish(postId, {
-                    likeOption,
-                    likes: Number(likes)
-                })
-            }
-        }
-
-    }
-
     if (!sessionId) {
         sessionId = randomUUID()
 
@@ -45,18 +25,38 @@ export async function likePost(request: FastifyRequest, reply: FastifyReply) {
         })
     }
 
-    try {
-        const createLike = makeLikeUseCase()
-        like = await createLike.execute({ sessionId, postId })
+    if (sessionId) {
+        const getPreviousLike = makeUserPreviousLikePost()
+        previousLike = await getPreviousLike.execute({ sessionId, postId })
 
-        const likes = await redis.zincrby(postId, 1, likeOption)
+        if (previousLike) {
+            const deleteLike = makeDeleteLikeUseCase()
+            like = await deleteLike.execute({ likeId: previousLike.id })
 
-        liking.publish(postId, {
-            likeOption,
-            likes: Number(likes)
-        })
-    } catch (err) {
-        return await reply.status(400).send('A failure, please try again later!')
+            if (like) {
+                const likes = await redis.zincrby(postId, -1, likeOption)
+
+                liking.publish(postId, {
+                    likeOption,
+                    likes: Number(likes)
+                })
+            }
+        } else {
+            try {
+                const createLike = makeLikeUseCase()
+                like = await createLike.execute({ sessionId, postId })
+
+                const likes = await redis.zincrby(postId, 1, likeOption)
+
+                liking.publish(postId, {
+                    likeOption,
+                    likes: Number(likes)
+                })
+            } catch (err) {
+                return await reply.status(400).send('A failure, please try again later!')
+            }
+        }
+
     }
 
     return await reply.status(200).send(like)
