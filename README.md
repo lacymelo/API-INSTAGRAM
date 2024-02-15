@@ -1,6 +1,6 @@
 <div align="justify">
   <p align="center">
-    <img alt="Logo Omnistack 7 - Rocketseat" src="https://arturkilldragon.files.wordpress.com/2019/06/omnistack-wallpaper-1920x1080.png" width="500px" />
+    <img alt="Logo Omnistack 7 - Rocketseat" src="https://arturkilldragon.files.wordpress.com/2019/06/omnistack-wallpaper-1920x1080.png" width="550px" />
   </p>
 
   <h1 align="center">
