@@ -5,7 +5,12 @@ import multerConfig from "../config/upload";
 import { getPosts } from "@/http/controller/get-posts";
 import { likePost } from "@/http/controller/like-post";
 import { postResultWebSocket } from "@/websocket/controllers/post-result-websocket";
-const upload = multer(multerConfig)
+const upload = multer({
+    ...multerConfig,
+    limits: {
+        fileSize: 1024 * 1024 * 10, // Limite de 10MB (tamanho em bytes)
+    }
+})
 
 export async function appRoutes(app: FastifyInstance) {
     // cria a post
