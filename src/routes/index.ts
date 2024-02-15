@@ -5,8 +5,11 @@ import multerConfig from "../config/upload";
 import { getPosts } from "@/http/controller/get-posts";
 import { likePost } from "@/http/controller/like-post";
 import { postResultWebSocket } from "@/websocket/controllers/post-result-websocket";
+import { fileFilter } from "@/utils/file-filter";
+
 const upload = multer({
     ...multerConfig,
+    fileFilter: fileFilter,
     limits: {
         fileSize: 1024 * 1024 * 10, // Limite de 10MB (tamanho em bytes)
     }
