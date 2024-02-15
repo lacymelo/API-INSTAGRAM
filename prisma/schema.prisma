@@ -20,6 +20,19 @@ model Post {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now())
+  Like      Like[]
 
   @@map("post")
+}
+
+model Like {
+  id        String   @id @default(uuid())
+  postId    String
+  sessionId String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+  post      Post     @relation(fields: [postId], references: [id])
+
+  @@unique([postId, sessionId])
+  @@map("like")
 }

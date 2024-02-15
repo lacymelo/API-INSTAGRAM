@@ -1,4 +1,4 @@
-type Message = { likeOption: number, votes: number }
+type Message = { likeOption: string, likes: number }
 type Subscriber = (message: Message) => void
 
 class LikePubSubUseCase {

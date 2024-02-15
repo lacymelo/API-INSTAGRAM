@@ -1,21 +1,37 @@
 import { redis } from "@/lib/radis";
+import { makeDeleteLikeUseCase } from "@/useCases/factories/make-delete-like-use-case";
+import { makeLikeUseCase } from "@/useCases/factories/make-like-use-case";
+import { makeUserPreviousLikePost } from "@/useCases/factories/make-user-previous-like-post";
 import { liking } from "@/useCases/like-pub-sub";
 import { likeSchema } from "@/utils/validations";
 import { randomUUID } from "crypto";
 import { FastifyReply, FastifyRequest } from "fastify";
 
-export async function LikePost(request: FastifyRequest, reply: FastifyReply) {
+export async function likePost(request: FastifyRequest, reply: FastifyReply) {
     const { postId } = likeSchema.parse(request.params)
     let { sessionId } = request.cookies
-    let likeOption = 1 // definindo like como 1
+    let previousLike
+    let likeOption = 'like' // definindo like como 1
+    let like
 
     if (sessionId) {
-        const likes = await redis.zincrby(postId, -1, likeOption)
+        const getPreviousLike = makeUserPreviousLikePost()
+        previousLike = await getPreviousLike.execute({ sessionId, postId })
 
-        liking.publish(postId, {
-            likeOption,
-            votes: Number(likes)
-        })
+        if (previousLike) {
+            const deleteLike = makeDeleteLikeUseCase()
+            let deletePreviousLike = await deleteLike.execute({ likeId: previousLike.id })
+
+            if (deletePreviousLike) {
+                const likes = await redis.zincrby(postId, -1, likeOption)
+
+                liking.publish(postId, {
+                    likeOption,
+                    likes: Number(likes)
+                })
+            }
+        }
+
     }
 
     if (!sessionId) {
@@ -30,15 +46,18 @@ export async function LikePost(request: FastifyRequest, reply: FastifyReply) {
     }
 
     try {
-        const votes = await redis.zincrby(postId, 1, likeOption)
+        const createLike = makeLikeUseCase()
+        like = await createLike.execute({ sessionId, postId })
+
+        const likes = await redis.zincrby(postId, 1, likeOption)
 
         liking.publish(postId, {
             likeOption,
-            votes: Number(votes)
+            likes: Number(likes)
         })
-
-        return await reply.status(200).send()
-    } catch (error) {
+    } catch (err) {
         return await reply.status(400).send('A failure, please try again later!')
     }
+
+    return await reply.status(200).send(like)
 }
