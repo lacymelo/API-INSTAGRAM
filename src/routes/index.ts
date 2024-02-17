@@ -17,7 +17,7 @@ const upload = multer({
 
 export async function appRoutes(app: FastifyInstance) {
     // cria a post
-    app.post('/posts', { preHandler: upload.single('image') }, createPost)
+    app.post('/post', { preHandler: upload.single('image') }, createPost)
 
     // lista de posts
     app.get('/posts', getPosts)

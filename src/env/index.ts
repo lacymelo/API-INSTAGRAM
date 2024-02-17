@@ -12,7 +12,8 @@ const envSchema = z.object({
     NODE_ENV: z.enum(['dev', 'test', 'production']).default('dev'),
     PORT: z.coerce.number().default(3333),
     DATABASE_URL: z.string(),
-    KEY_SECRET_COOKIE: z.string()
+    KEY_SECRET_COOKIE: z.string(),
+    API_INSTAGRAM: z.string().url()
 })
 
 // validação das variáveis de ambiente

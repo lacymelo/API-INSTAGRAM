@@ -98,6 +98,10 @@ pnpm i dotenv
 ```bash
 pnpm i fastify-multer
 ```
+✨ Na api a pasta uploads deve ser acessada de forma estática, então usaremos o `@fastify/static`, instalando com o seguinte comando
+```bash
+pnpm i @fastify/static
+```
 
 ## :arrow_forward: Configurações do Docker
 > Esses são os comandos e configurações do docker.

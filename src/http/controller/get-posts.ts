@@ -1,3 +1,4 @@
+import { env } from "@/env";
 import { redis } from "@/lib/radis";
 import { makeGetPostsUseCase } from "@/useCases/factories/make-get-posts-use-case";
 import { FastifyReply, FastifyRequest } from "fastify";
@@ -16,6 +17,7 @@ export async function getPosts(request: FastifyRequest, reply: FastifyReply) {
 
                 return {
                     ...post,
+                    image: `${env.API_INSTAGRAM}/uploads/${post.image}`,
                     like: likes[1] ? Number(likes[1]) : 0
                 }
             }))
