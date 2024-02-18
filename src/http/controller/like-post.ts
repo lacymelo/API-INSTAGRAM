@@ -9,10 +9,11 @@ import { FastifyReply, FastifyRequest } from "fastify";
 
 export async function likePost(request: FastifyRequest, reply: FastifyReply) {
     const { postId } = likeSchema.parse(request.params)
-    let { sessionId } = request.cookies
     let previousLike
-    let likeOption = 'like' // definindo like como 1
+    let likeOption = 'like'
     let like
+
+    let { sessionId } = request.cookies
 
     if (!sessionId) {
         sessionId = randomUUID()
@@ -36,8 +37,8 @@ export async function likePost(request: FastifyRequest, reply: FastifyReply) {
             if (like) {
                 const likes = await redis.zincrby(postId, -1, likeOption)
 
-                liking.publish(postId, {
-                    likeOption,
+                liking.publish(likeOption, {
+                    postId,
                     likes: Number(likes)
                 })
             }
@@ -48,8 +49,8 @@ export async function likePost(request: FastifyRequest, reply: FastifyReply) {
 
                 const likes = await redis.zincrby(postId, 1, likeOption)
 
-                liking.publish(postId, {
-                    likeOption,
+                liking.publish(likeOption, {
+                    postId,
                     likes: Number(likes)
                 })
             } catch (err) {

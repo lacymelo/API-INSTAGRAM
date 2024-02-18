@@ -4,8 +4,9 @@ import multer from "fastify-multer"
 import multerConfig from "../config/upload";
 import { getPosts } from "@/http/controller/get-posts";
 import { likePost } from "@/http/controller/like-post";
-import { postResultWebSocket } from "@/websocket/controllers/post-result-websocket";
 import { fileFilter } from "@/utils/file-filter";
+import { likeResultWebSocket } from "@/websocket/controllers/like-result-websocket";
+import { postResultWebsocket } from "@/websocket/controllers/post-result-websocket";
 
 const upload = multer({
     ...multerConfig,
@@ -26,5 +27,7 @@ export async function appRoutes(app: FastifyInstance) {
     app.get('/post/:postId', likePost)
 
     // mostra a contagem dos likes em tempo real
-    app.get('/post/:postId/results', { websocket: true }, postResultWebSocket)
+    app.get('/like/result', { websocket: true }, likeResultWebSocket)
+
+    app.get('/post/result', { websocket: true }, postResultWebsocket)
 }

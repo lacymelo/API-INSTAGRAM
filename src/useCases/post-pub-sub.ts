@@ -1,7 +1,18 @@
-type Message = { postId: string, likes: number }
+type Message = {
+    id: string
+    author: string
+    place: string
+    description: string
+    hashtags: string
+    image: string
+    createdAt: Date
+    updatedAt: Date
+    like: number
+}
+
 type Subscriber = (message: Message) => void
 
-class LikePubSubUseCase {
+class PostPubSubUseCase {
     private channels: Record<string, Subscriber[]> = {}
 
     subscribe(typeSocket: string, subscriber: Subscriber) {
@@ -12,7 +23,6 @@ class LikePubSubUseCase {
         this.channels[typeSocket].push(subscriber)
     }
 
-    // publicando
     publish(typeSocket: string, message: Message) {
         if (!this.channels[typeSocket]) {
             return
@@ -24,4 +34,4 @@ class LikePubSubUseCase {
     }
 }
 
-export const liking = new LikePubSubUseCase()
+export const posting = new PostPubSubUseCase()

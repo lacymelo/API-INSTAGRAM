@@ -12,7 +12,10 @@ import path from 'path'
 // Crie uma instância do aplicativo Fastify
 const app = fastify()
 
-app.register(cors)
+app.register(cors, {
+    origin: 'http://localhost:3000',
+    credentials: true, // Permita credenciais (cookies)
+})
 
 // Rota para servir arquivos estáticos do diretório de uploads
 app.register(staticFolder, {

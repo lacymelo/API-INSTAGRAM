@@ -1,12 +1,9 @@
-import { liking } from "@/useCases/like-pub-sub";
-import { likeSchema } from "@/utils/validations";
+import { posting } from "@/useCases/post-pub-sub";
 import { SocketStream } from "@fastify/websocket";
 import { FastifyRequest } from "fastify";
 
-export async function postResultWebSocket(connection: SocketStream, request: FastifyRequest) {
-    const { postId } = likeSchema.parse(request.params)
-
-    liking.subscribe(postId, (message) => {
+export async function postResultWebsocket(connection: SocketStream, request: FastifyRequest) {
+    posting.subscribe('post', (message) => {
         connection.socket.send(JSON.stringify(message))
     })
 }
