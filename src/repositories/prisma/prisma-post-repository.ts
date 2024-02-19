@@ -14,7 +14,7 @@ export class PrismaPostRepository implements PostRepository {
     async getPosts() {
         const posts = await prisma.post.findMany({
             orderBy: {
-                createdAt: 'asc'
+                createdAt: 'desc'
             }
         })
 
